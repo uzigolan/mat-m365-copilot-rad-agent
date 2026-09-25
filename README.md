@@ -199,19 +199,25 @@ Add people, agents and bots -> Add agents and bots -> MAT Agent
 
 ## RAD MCP Configuration
 
-The RAD toolkit MCP runtime is configured in `src/config/copilot.ts`.
+The RAD toolkit MCP service is configured in `src/config/copilot.ts`.
 
-Default path:
+Default local HTTP endpoint:
 
 ```text
-C:\Users\uzi_g\.codex\plugins\cache\pack-stdio-0270-marketplace\pack-stdio-0270\0.27.0\runtime\windows-amd64\rad-mcp-runtime.exe
+http://localhost:8765/mcp
 ```
 
 You can override it in `.env`:
 
 ```env
-RAD_MCP_RUNTIME=C:\path\to\rad-mcp-runtime.exe
+RAD_MCP_URL=https://rad-mcp.example.com/mcp
+RAD_MCP_TOKEN=optional-token
 ```
+
+The RAD MCP service is intentionally HTTP-based so it can be shared by this
+Microsoft Agent Toolkit (MAT) app, GitHub Copilot clients, Claude MCP clients,
+and future internal AI clients. If a client only supports local stdio MCP, use a
+stdio-to-HTTP adapter as a compatibility shim.
 
 The configured MCP server key is:
 

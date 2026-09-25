@@ -52,21 +52,23 @@ For RAD device actions, the Teams agent must preserve these rules:
 
 ## MCP Server
 
-The installed RAD toolkit exposes this MCP server:
+The RAD toolkit should expose an HTTP MCP service. This service is reusable by
+Microsoft Agent Toolkit (MAT), GitHub Copilot clients, Claude MCP clients, and
+future internal AI clients.
 
 ```json
 {
   "mcpServers": {
     "rad-network-toolkit": {
-      "type": "stdio",
-      "command": "<plugin-root>/runtime/windows-amd64/rad-mcp-runtime.exe",
-      "args": ["--server", "legacy", "--enable-market-intel"]
+      "type": "http",
+      "url": "https://rad-mcp.example.com/mcp"
     }
   }
 }
 ```
 
 In the Microsoft Agent Toolkit (MAT) app, this is configured in `src/config/copilot.ts` as `radNetworkToolkit`.
+For local development, set `RAD_MCP_URL=http://localhost:8765/mcp` in `.env`.
 
 Copilot SDK names MCP tools as:
 

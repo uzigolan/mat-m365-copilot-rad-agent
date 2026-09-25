@@ -1,9 +1,10 @@
 import path from "node:path";
 
 export type McpServerConfig = {
-  command: string;
-  args?: string[];
-  env?: Record<string, string>;
+  type: "http" | "sse";
+  url: string;
+  headers?: Record<string, string>;
+  timeout?: number;
 };
 
 export type AppCopilotConfig = {
@@ -23,10 +24,11 @@ export const copilotConfig: AppCopilotConfig = {
     "You are the Microsoft Agent Toolkit (MAT) app's coding agent. Use connected MCP servers and skills when relevant, ask for approval before risky actions, and explain tool use clearly.",
   mcpServers: {
     radNetworkToolkit: {
-      command:
-        process.env.RAD_MCP_RUNTIME ??
-        "C:\\Users\\uzi_g\\.codex\\plugins\\cache\\pack-stdio-0270-marketplace\\pack-stdio-0270\\0.27.0\\runtime\\windows-amd64\\rad-mcp-runtime.exe",
-      args: ["--server", "legacy", "--enable-market-intel"]
+      type: "http",
+      url: process.env.RAD_MCP_URL ?? "http://localhost:8765/mcp",
+      ...(process.env.RAD_MCP_TOKEN
+        ? { headers: { Authorization: `Bearer ${process.env.RAD_MCP_TOKEN}` } }
+        : {})
     }
   }
 };

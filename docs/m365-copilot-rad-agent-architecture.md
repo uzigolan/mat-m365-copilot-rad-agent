@@ -229,28 +229,57 @@ session_store
 
 ## RAD MCP and skills connection
 
-The installed RAD toolkit exposes a stdio MCP server:
+The RAD toolkit should be exposed as an **HTTP MCP service**, not as a
+project-local stdio subprocess. Microsoft Agent Toolkit (MAT) is only one
+consumer of that service. The same RAD MCP endpoint and RAD skills package
+should also be installable for other AI clients such as Claude, GitHub Copilot,
+and future internal clients.
+
+Recommended HTTP MCP registration:
 
 ```json
 {
   "mcpServers": {
     "rad-network-toolkit": {
-      "type": "stdio",
-      "command": "<plugin-root>/runtime/windows-amd64/rad-mcp-runtime.exe",
-      "args": ["--server", "legacy", "--enable-market-intel"]
+      "type": "http",
+      "url": "https://rad-mcp.example.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${RAD_MCP_TOKEN}"
+      }
     }
   }
 }
 ```
 
-This app configures that runtime in `src/config/copilot.ts`.
+For local development, the URL can point at a locally hosted RAD MCP server:
+
+```text
+RAD_MCP_URL=http://localhost:8765/mcp
+```
+
+This app configures the HTTP MCP endpoint in `src/config/copilot.ts`.
 
 ```text
 Copilot SDK session
   -> mcpServers.radNetworkToolkit
-  -> rad-mcp-runtime.exe
+  -> HTTP MCP endpoint
   -> RAD knowledge and device tools
 ```
+
+The RAD MCP service should be packaged and documented independently from this
+Teams/Microsoft 365 app so multiple clients can install the same capability:
+
+```text
+RAD MCP HTTP Service
+  -> Microsoft Agent Toolkit (MAT)
+  -> GitHub Copilot SDK / CLI clients
+  -> Claude Desktop / Claude Code MCP clients
+  -> Future internal AI clients
+```
+
+The RAD skills should follow the same reuse model. They describe behavior,
+routing, and safety rules for the RAD domain, while the MCP service exposes the
+typed tools.
 
 Tool names exposed through Copilot SDK are shaped by the MCP server key plus
 the tool name:
@@ -270,6 +299,65 @@ radNetworkToolkit-cli_help
 
 Exact names must be verified from the runtime before hard-coding allow/deny
 rules.
+
+## Multi-client RAD MCP installation model
+
+The RAD MCP and skills package is a shared company capability, not a private
+implementation detail of this project.
+
+```mermaid
+flowchart TD
+    RADS["RAD MCP HTTP Service"] --> RADD["RAD knowledge + device APIs"]
+    RADSK["RAD Skills Package"] --> RULES["Routing, safety, staged config rules"]
+
+    MAT["Microsoft Agent Toolkit (MAT)"] --> RADS
+    MAT --> RADSK
+
+    COP["GitHub Copilot clients"] --> RADS
+    COP --> RADSK
+
+    CLAUDE["Claude MCP clients"] --> RADS
+    CLAUDE --> RADSK
+
+    OTHER["Future AI clients"] --> RADS
+    OTHER --> RADSK
+
+    classDef blockBig font-size:16px,stroke-width:2px,padding:16px;
+    class RADS,RADD,RADSK,RULES,MAT,COP,CLAUDE,OTHER blockBig;
+```
+
+Client configuration examples:
+
+```json
+{
+  "mcpServers": {
+    "rad-network-toolkit": {
+      "type": "http",
+      "url": "https://rad-mcp.example.com/mcp"
+    }
+  }
+}
+```
+
+For clients that support headers:
+
+```json
+{
+  "mcpServers": {
+    "rad-network-toolkit": {
+      "type": "http",
+      "url": "https://rad-mcp.example.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${RAD_MCP_TOKEN}"
+      }
+    }
+  }
+}
+```
+
+If a client only supports local stdio MCP, use a small stdio-to-HTTP adapter as
+a compatibility shim. The authoritative deployment target should still be the
+HTTP MCP service.
 
 ## Future business MCP and skills domains
 
