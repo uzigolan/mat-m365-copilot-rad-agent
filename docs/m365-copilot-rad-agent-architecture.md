@@ -89,6 +89,9 @@ flowchart TD
 
     CR --> MCP[RAD MCP Server\nrad-network-toolkit]
     CR --> SK[RAD Skills\nSafety + routing instructions]
+    CR -. future .-> SALES["Sales MCP + Skills"]
+    CR -. future .-> MKT["Marketing MCP + Skills"]
+    CR -. future .-> IT["IT MCP + Skills"]
     CR --> FS[Workspace Files]
     CR --> SH[Shell / local tools\nrestricted by policy]
 
@@ -102,7 +105,7 @@ flowchart TD
     MB -->|reply| T
 
     classDef blockBig font-size:16px,stroke-width:2px,padding:16px;
-    class U,T,TA,MB,SM,TR,PP,CP,CR,MCP,SK,FS,SH,KP,DP,DEV blockBig;
+    class U,T,TA,MB,SM,TR,PP,CP,CR,MCP,SK,SALES,MKT,IT,FS,SH,KP,DP,DEV blockBig;
 ```
 
 The critical boundary is between **planning** and **execution**. Copilot and the
@@ -267,6 +270,49 @@ radNetworkToolkit-cli_help
 
 Exact names must be verified from the runtime before hard-coding allow/deny
 rules.
+
+## Future business MCP and skills domains
+
+RAD is the first domain package, but the architecture should support additional
+company capability packages. Each package should expose tools through MCP and
+behavior through skills.
+
+```mermaid
+flowchart TD
+    CP[Copilot SDK Session] --> CR[Copilot CLI Runtime]
+
+    CR --> RAD["RAD MCP + RAD Skills"]
+    CR -. future .-> SALES["Sales MCP + Sales Skills"]
+    CR -. future .-> MKT["Marketing MCP + Marketing Skills"]
+    CR -. future .-> IT["IT MCP + IT Skills"]
+
+    RAD --> RADK[Product docs, CLI refs, MIBs, device inventory, approved live operations]
+    SALES --> SALESK[CRM/account data, opportunity notes, quotes, approved sales workflows]
+    MKT --> MKTK[Campaign material, product messaging, competitive notes, approved content workflows]
+    IT --> ITK[Service desk, asset inventory, access requests, approved IT operations]
+
+    classDef blockBig font-size:16px,stroke-width:2px,padding:16px;
+    class CP,CR,RAD,SALES,MKT,IT,RADK,SALESK,MKTK,ITK blockBig;
+```
+
+The same rules apply to every future domain:
+
+- MCP exposes typed tools.
+- Skills describe routing, safety, and domain behavior.
+- The MAT backend owns session mapping, Microsoft 365 identity context, traces,
+  and approval UX.
+- Domain tools should not bypass the central permission policy.
+- Sensitive actions require explicit approval in the originating Microsoft 365
+  surface.
+
+Recommended future package names:
+
+| Domain | MCP package | Skills package | Example use |
+|---|---|---|---|
+| RAD | `rad-network-toolkit` | RAD skills | Product support, CLI reference, SNMP, approved device actions |
+| Sales | `sales-toolkit` | Sales skills | Account lookup, quote assistance, opportunity summaries |
+| Marketing | `marketing-toolkit` | Marketing skills | Product messaging, campaign content, competitive material |
+| IT | `it-toolkit` | IT skills | Service desk, asset lookup, access-request workflows |
 
 ## Knowledge plane vs device plane
 

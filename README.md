@@ -10,6 +10,7 @@ Microsoft Teams chat
   -> GitHub Copilot SDK
   -> Copilot CLI runtime
   -> RAD agent toolkit MCP server and skills
+  -> Future Sales, Marketing, and IT MCP servers and skills
 ```
 
 ## Short Description
@@ -38,6 +39,7 @@ mat-rad-agent
 - Lets users mention the agent from Teams.
 - Sends the request to GitHub Copilot through the official Copilot SDK.
 - Exposes the RAD agent toolkit through MCP.
+- Leaves room for future Sales, Marketing, and IT MCP/skills packages.
 - Posts the answer back into the same Teams conversation.
 - Keeps RAD device actions behind explicit approval rules.
 

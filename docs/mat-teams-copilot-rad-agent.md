@@ -9,6 +9,7 @@ Microsoft Teams group chat/channel
   -> GitHub Copilot SDK session
   -> Copilot CLI runtime
   -> RAD agent toolkit MCP server + RAD skills
+  -> Future Sales, Marketing, and IT MCP servers + skills
   -> RAD knowledge, inventory, SNMP, CLI reference, and approved live actions
 ```
 
@@ -25,6 +26,14 @@ Microsoft Teams group chat/channel
 4. The backend forwards the prompt to a shared Copilot SDK session for that Teams conversation.
 5. Copilot can use the RAD toolkit MCP tools and skills.
 6. The answer is posted back into the same Teams chat for everyone.
+
+Future versions can connect additional company MCP/skills packages:
+
+- Sales MCP + Sales skills
+- Marketing MCP + Marketing skills
+- IT MCP + IT skills
+
+RAD remains the first implemented domain package.
 
 ## RAD Safety Boundary
 
