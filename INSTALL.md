@@ -8,6 +8,19 @@ This guide has two paths:
 Before either path, verify that GitHub Copilot CLI works and that the RAD agent
 toolkit plugin is connected.
 
+## Table Of Contents
+
+1. [Prerequisites](#prerequisites)
+2. [Verify Copilot And RAD Toolkit](#verify-copilot-and-rad-toolkit)
+3. [Initial Setup](#initial-setup)
+4. [Path 1: Local Web Debug](#path-1-local-web-debug)
+5. [Path 2: Microsoft Teams](#path-2-microsoft-teams)
+   - [Start The Local App](#start-the-local-app)
+   - [Start Dev Tunnel](#start-dev-tunnel)
+   - [Log In To Teams CLI](#log-in-to-teams-cli)
+   - [Register The Teams App](#register-the-teams-app)
+6. [Notes](#notes)
+
 ## Prerequisites
 
 - Node.js 20.19 or newer
@@ -193,4 +206,3 @@ Try:
   only.
 - For production or shared environments, use authenticated Teams requests and a
   shared HTTP RAD MCP service.
-
