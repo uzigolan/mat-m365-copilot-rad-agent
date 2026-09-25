@@ -20,7 +20,7 @@ export const copilotConfig: AppCopilotConfig = {
     : process.cwd(),
   instructions:
     process.env.COPILOT_INSTRUCTIONS ??
-    "You are the MAT app's coding agent. Use connected MCP servers and skills when relevant, ask for approval before risky actions, and explain tool use clearly.",
+    "You are the Microsoft Agent Toolkit (MAT) app's coding agent. Use connected MCP servers and skills when relevant, ask for approval before risky actions, and explain tool use clearly.",
   mcpServers: {
     radNetworkToolkit: {
       command:

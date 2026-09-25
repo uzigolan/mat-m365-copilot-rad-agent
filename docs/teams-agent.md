@@ -1,6 +1,6 @@
 # Teams Agent Target
 
-Goal: package MAT as a Microsoft Teams agent that users can add to a group chat, channel, or one-on-one chat.
+Goal: package Microsoft Agent Toolkit (MAT) as a Microsoft Teams agent that users can add to a group chat, channel, or one-on-one chat.
 
 Primary runtime goal: Teams agent -> GitHub Copilot SDK -> RAD agent toolkit MCP server and skills.
 
@@ -9,7 +9,7 @@ Primary runtime goal: Teams agent -> GitHub Copilot SDK -> RAD agent toolkit MCP
 ```text
 Teams chat/channel
   -> Teams app + bot/agent messaging endpoint `/api/messages`
-  -> MAT backend
+  -> Microsoft Agent Toolkit (MAT) backend
   -> Microsoft Agent Framework or direct Copilot SDK provider
   -> Copilot runtime
   -> MCP servers, skills, files, and approved tools

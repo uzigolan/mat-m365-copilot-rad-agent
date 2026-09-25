@@ -45,7 +45,7 @@ export function registerTeamsAgent(app: App): void {
 
   app.on("install.add", async ({ send }) => {
     await send(
-      "MAT Agent is ready. Add me to chats or channels, then mention me with Copilot or RAD agent requests."
+      "Microsoft Agent Toolkit (MAT) Agent is ready. Add me to chats or channels, then mention me with Copilot or RAD agent requests."
     );
   });
 }

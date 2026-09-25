@@ -1,11 +1,11 @@
-# MAT Teams Copilot RAD Agent
+# Microsoft Agent Toolkit (MAT) Teams Copilot RAD Agent
 
 This is the target product:
 
 ```text
 Microsoft Teams group chat/channel
-  -> MAT Teams agent
-  -> MAT backend `/api/messages`
+  -> Microsoft Agent Toolkit (MAT) Teams agent
+  -> Microsoft Agent Toolkit (MAT) backend `/api/messages`
   -> GitHub Copilot SDK session
   -> Copilot CLI runtime
   -> RAD agent toolkit MCP server + RAD skills
@@ -21,7 +21,7 @@ Microsoft Teams group chat/channel
    @MAT Agent rad agent, check alarms on etx2v-1
    ```
 
-3. The Teams agent sends the request to the MAT backend.
+3. The Teams agent sends the request to the Microsoft Agent Toolkit (MAT) backend.
 4. The backend forwards the prompt to a shared Copilot SDK session for that Teams conversation.
 5. Copilot can use the RAD toolkit MCP tools and skills.
 6. The answer is posted back into the same Teams chat for everyone.
@@ -57,7 +57,7 @@ The installed RAD toolkit exposes this MCP server:
 }
 ```
 
-In the MAT app, this is configured in `src/config/copilot.ts` as `radNetworkToolkit`.
+In the Microsoft Agent Toolkit (MAT) app, this is configured in `src/config/copilot.ts` as `radNetworkToolkit`.
 
 Copilot SDK names MCP tools as:
 
@@ -111,4 +111,3 @@ That gives everyone in the same Teams chat the same visible agent result, while 
 4. Pass the prompt to `copilotProvider`.
 5. Post the response back to Teams.
 6. For RAD tool permission requests, post an approval card/message in Teams and wait for confirmation.
-

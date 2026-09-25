@@ -1,4 +1,4 @@
-# MAT M365 Copilot RAD Agent - architecture
+# Microsoft Agent Toolkit (MAT) M365 Copilot RAD Agent - architecture
 
 *(Surface distribution mode: **Microsoft 365 first**, starting with Teams. Runtime mode: GitHub Copilot SDK backed by the Copilot CLI runtime. RAD capabilities are served through the RAD agent toolkit MCP server.)*
 
@@ -11,7 +11,7 @@ answer RAD questions and perform approved RAD workflows.
 It is intended to explain:
 
 1. Which technology owns each part of the system.
-2. How Microsoft 365, Teams, the MAT backend, GitHub Copilot SDK, Copilot CLI,
+2. How Microsoft 365, Teams, the Microsoft Agent Toolkit (MAT) backend, GitHub Copilot SDK, Copilot CLI,
    MCP servers, and RAD skills connect.
 3. Where safety and approval gates must be enforced.
 4. How the current Teams implementation can later support other Microsoft 365
@@ -26,7 +26,7 @@ The backend should treat Teams as one front door into a reusable agent runtime:
 
 ```text
 Microsoft 365 surface
-  -> MAT backend
+  -> Microsoft Agent Toolkit (MAT) backend
   -> GitHub Copilot SDK
   -> Copilot CLI runtime
   -> RAD agent toolkit MCP server
@@ -77,9 +77,9 @@ src/policies/permissions.ts
 ```mermaid
 flowchart TD
     U[Company Users] -->|mention agent| T[Microsoft Teams Chat / Channel]
-    T -->|Bot Framework activity| TA[MAT Teams App\n/api/messages]
+    T -->|Bot Framework activity| TA[Microsoft Agent Toolkit (MAT) Teams App\n/api/messages]
 
-    TA -->|clean prompt + context| MB[MAT Backend]
+    TA -->|clean prompt + context| MB[Microsoft Agent Toolkit (MAT) backend]
     MB --> SM[Session Mapper\nTeams conversation -> Copilot session]
     MB --> TR[Trace Store\nJSONL now, durable store later]
     MB --> PP[Permission Policy]
@@ -115,12 +115,12 @@ device command must pass through the approval policy before execution.
 |---|---|---|---|
 | Microsoft 365 surface | Teams first, later Outlook/SharePoint/M365 | User interaction, identity context, shared conversation | RAD business logic |
 | Teams app endpoint | `@microsoft/teams.apps` | Receive activities at `/api/messages`, reply to Teams | Copilot orchestration internals |
-| MAT backend | Express + TypeScript | Surface routing, session mapping, traces, policy integration | Vendor-specific RAD command syntax |
+| Microsoft Agent Toolkit (MAT) backend | Express + TypeScript | Surface routing, session mapping, traces, policy integration | Vendor-specific RAD command syntax |
 | Agent runtime | GitHub Copilot SDK | Structured Copilot sessions, events, MCP config, permissions | Teams installation/publishing |
 | Runtime engine | Copilot CLI runtime | Tool execution substrate used by SDK | Product-specific approval policy |
 | Tool plane | MCP | Expose RAD tools and knowledge as structured capabilities | Microsoft 365 identity |
 | RAD plugin | RAD agent toolkit | RAD knowledge, inventory, CLI, SNMP, staged config flow | Teams message transport |
-| Safety layer | MAT policy + RAD skills | Confirmation gates, staged commits, destructive-action refusal | Raw device execution bypass |
+| Safety layer | Microsoft Agent Toolkit (MAT) policy + RAD skills | Confirmation gates, staged commits, destructive-action refusal | Raw device execution bypass |
 
 ## Microsoft 365 surface model
 
@@ -167,7 +167,7 @@ the same runtime.
 sequenceDiagram
     participant User
     participant Teams
-    participant MAT as MAT /api/messages
+    participant MAT as Microsoft Agent Toolkit (MAT) /api/messages
     participant Sessions as Session Mapper
     participant Copilot as GitHub Copilot SDK
     participant Runtime as Copilot CLI Runtime
@@ -397,7 +397,7 @@ Use this for validating Teams installation, mentions, and shared-chat replies.
 
 ### Stage 2: Internal development app
 
-Host the MAT backend on an internal development service and register a Teams app
+Host the Microsoft Agent Toolkit (MAT) backend on an internal development service and register a Teams app
 for a limited developer group.
 
 Requirements:
@@ -509,4 +509,3 @@ The architecture is complete when:
 7. Add pilot deployment instructions for a limited Microsoft 365 user group.
 8. Refactor `src/teams` into `src/surfaces/teams` only when a second surface is
    added.
-

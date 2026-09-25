@@ -1,4 +1,4 @@
-# MAT Teams Copilot RAD Agent
+# Microsoft Agent Toolkit (MAT) Teams Copilot RAD Agent
 
 Microsoft Teams agent proof of concept that lets users add an agent to a Teams chat and ask RAD/Copilot questions from the shared conversation.
 
@@ -6,7 +6,7 @@ The agent runs as:
 
 ```text
 Microsoft Teams chat
-  -> MAT Teams agent / bot endpoint
+  -> Microsoft Agent Toolkit (MAT) Teams agent / bot endpoint
   -> GitHub Copilot SDK
   -> Copilot CLI runtime
   -> RAD agent toolkit MCP server and skills
@@ -276,4 +276,3 @@ Push:
 ```powershell
 git push -u origin main
 ```
-

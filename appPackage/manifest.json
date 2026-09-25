@@ -11,7 +11,7 @@
   },
   "name": {
     "short": "MAT Agent",
-    "full": "MAT Copilot RAD Agent"
+    "full": "Microsoft Agent Toolkit (MAT) Copilot RAD Agent"
   },
   "description": {
     "short": "Copilot-backed RAD agent for Teams chats.",

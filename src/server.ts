@@ -52,6 +52,6 @@ process.on("SIGINT", async () => {
 await teamsApp.initialize();
 
 app.listen(port, () => {
-  console.log(`MAT Copilot Teams agent listening on http://localhost:${port}`);
+  console.log(`Microsoft Agent Toolkit (MAT) Copilot Teams agent listening on http://localhost:${port}`);
   console.log(`Teams messaging endpoint: http://localhost:${port}/api/messages`);
 });
