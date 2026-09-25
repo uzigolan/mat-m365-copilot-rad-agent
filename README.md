@@ -17,22 +17,6 @@ Microsoft Teams chat
 
 Teams-addable Copilot agent for RAD workflows, powered by GitHub Copilot SDK and the RAD agent toolkit MCP plugin.
 
-## Recommended Repository Name
-
-Recommended:
-
-```text
-mat-teams-copilot-rad-agent
-```
-
-Other good options:
-
-```text
-teams-copilot-rad-agent
-rad-teams-agent
-mat-rad-agent
-```
-
 ## What This App Does
 
 - Adds a custom agent to Microsoft Teams chats, group chats, or channels.
@@ -246,37 +230,19 @@ backup_config -> stage_config -> show diff/preview -> explicit approval -> commi
 npm run typecheck
 ```
 
-## Prepare Git Commit
+## Git Workflow
 
-If this folder is not already a Git repo:
-
-```powershell
-git init
-git branch -M main
-```
-
-Check what will be committed:
+Check local changes:
 
 ```powershell
 git status --short
 ```
 
-Add files:
+Commit changes:
 
 ```powershell
-git add .gitignore .env.example README.md package.json package-lock.json tsconfig.json MAT.code-workspace appPackage docs src traces/.gitkeep
-```
-
-Commit:
-
-```powershell
-git commit -m "Add Teams Copilot RAD agent scaffold"
-```
-
-Add your GitHub remote:
-
-```powershell
-git remote add origin https://github.com/YOUR-ORG/mat-teams-copilot-rad-agent.git
+git add .
+git commit -m "<short change summary>"
 ```
 
 Push:
