@@ -402,6 +402,56 @@ Recommended future package names:
 | Marketing | `marketing-toolkit` | Marketing skills | Product messaging, campaign content, competitive material |
 | IT | `it-toolkit` | IT skills | Service desk, asset lookup, access-request workflows |
 
+### Future agent runtime options without app-owned API keys
+
+GitHub Copilot SDK plus the Copilot CLI runtime is the first runtime target for
+this project, but it should not be the only possible runtime. The MCP and skills
+domains above should remain reusable regardless of which agent runtime is
+selected.
+
+Preferred identity model: avoid hard-coded or app-owned model API keys. Use a
+signed-in user, tenant identity, delegated Microsoft 365 identity, or managed
+identity whenever possible.
+
+```mermaid
+flowchart TD
+    SURF[Microsoft 365 Surface] --> MAT["Microsoft Agent Toolkit (MAT) Backend"]
+
+    MAT --> RSEL{Agent Runtime Provider}
+
+    RSEL --> COP["GitHub Copilot SDK<br/>Copilot CLI Runtime<br/>local signed-in Copilot user"]
+    RSEL --> MAF["Microsoft Agent Framework<br/>provider abstraction<br/>delegated or managed identity"]
+    RSEL --> M365["Microsoft 365 Copilot / Agent 365<br/>tenant-governed identity"]
+    RSEL --> BYOK["BYOK provider<br/>customer-managed keys only when required"]
+
+    COP --> DOM["Shared MCP + Skills Domains"]
+    MAF --> DOM
+    M365 --> DOM
+    BYOK --> DOM
+
+    DOM --> RAD["RAD"]
+    DOM --> SALES["Sales"]
+    DOM --> MKT["Marketing"]
+    DOM --> IT["IT"]
+
+    classDef blockBig font-size:16px,stroke-width:2px,padding:16px;
+    class SURF,MAT,RSEL,COP,MAF,M365,BYOK,DOM,RAD,SALES,MKT,IT blockBig;
+```
+
+Runtime options:
+
+| Option | API-key posture | Best fit | Notes |
+|---|---|---|---|
+| GitHub Copilot SDK + Copilot CLI runtime | No app-owned model API key; uses signed-in Copilot user or supported Copilot auth mode | Developer and internal engineering agents | Current first implementation path |
+| Microsoft Agent Framework | Can use delegated identity, managed identity, or provider-specific auth | Multi-agent orchestration, approvals, governance, provider replacement | Good abstraction layer when more than one provider/runtime is needed |
+| Microsoft 365 Copilot / Agent 365 | Tenant-governed Microsoft 365 identity | Native enterprise M365 agent experience | Best long-term M365-native path, but requires admin/publishing setup |
+| BYOK model provider | Customer-owned key, not hard-coded in app | Regulated or non-Copilot provider requirements | Use only when tenant policy requires it |
+
+The business MCP/skills packages should not depend on a specific model runtime.
+They should expose typed tools and instructions that can be mounted by Copilot,
+Claude, Microsoft Agent Framework, Microsoft 365 Copilot, or another approved
+client.
+
 ## Knowledge plane vs device plane
 
 ```mermaid
