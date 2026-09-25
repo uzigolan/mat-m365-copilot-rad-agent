@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MAT Copilot</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main>
+      <section class="workspace">
+        <header>
+          <div>
+            <h1>MAT Copilot</h1>
+            <p id="status">Checking runtime...</p>
+          </div>
+          <button id="clear" type="button" title="Clear conversation">Clear</button>
+        </header>
+
+        <div id="messages" class="messages" aria-live="polite"></div>
+
+        <form id="chat-form">
+          <textarea id="prompt" name="prompt" rows="4" placeholder="Ask Copilot to use your connected plugin, MCP server, files, or skills..."></textarea>
+          <button type="submit">Send</button>
+        </form>
+      </section>
+    </main>
+    <script src="/main.js" type="module"></script>
+  </body>
+</html>
