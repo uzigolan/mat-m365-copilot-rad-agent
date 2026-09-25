@@ -1,66 +1,96 @@
-# Teams Agent Target
+# Teams Agent Setup
 
-Goal: package Microsoft Agent Toolkit (MAT) as a Microsoft Teams agent that users can add to a group chat, channel, or one-on-one chat.
+This document is the Teams setup checklist. For product intent, read
+[mat-teams-copilot-rad-agent.md](mat-teams-copilot-rad-agent.md). For the full
+architecture, read
+[m365-copilot-rad-agent-architecture.md](m365-copilot-rad-agent-architecture.md).
 
-Primary runtime goal: Teams agent -> GitHub Copilot SDK -> RAD agent toolkit MCP server and skills.
+## Goal
 
-## Runtime Shape
+Package Microsoft Agent Toolkit (MAT) as a Teams agent that users can add to:
+
+- one-on-one chats
+- group chats
+- channels
+
+Users interact with it by mentioning **MAT Agent**.
+
+## Teams Requirements
+
+The Teams app manifest should include these bot scopes:
 
 ```text
-Teams chat/channel
-  -> Teams app + bot/agent messaging endpoint `/api/messages`
-  -> Microsoft Agent Toolkit (MAT) backend
-  -> Microsoft Agent Framework or direct Copilot SDK provider
-  -> Copilot runtime
-  -> MCP servers, skills, files, and approved tools
+personal
+groupchat
+team
 ```
 
-## Required Teams Behavior
+The backend endpoint is:
 
-- Add `personal`, `groupchat`, and `team` scopes to the Teams app manifest.
-- Handle direct mentions in group chats and channels.
-- Map each Teams conversation ID to one shared Copilot session ID.
-- Post the answer back to the same Teams conversation/thread.
-- Store traces by Teams tenant, conversation, user, and Copilot session.
-- Use Entra ID for company identity and authorization.
+```text
+POST /api/messages
+```
 
-By default, Teams agents in group chats and channels only receive messages when directly mentioned. If the agent must observe every message in a chat or channel, use resource-specific consent and tenant admin approval.
+Group chats and channels normally deliver messages to the agent only when it is
+directly mentioned. Reading every message requires additional Microsoft 365
+resource-specific consent and admin approval.
 
-## Development Flow
+## Local Development Flow
 
-1. Install Teams tooling.
-
-   ```powershell
-   npm install -g @microsoft/teams.cli
-   teams login
-   ```
-
-2. Expose the local runtime.
+1. Start the local app:
 
    ```powershell
-   winget install Microsoft.devtunnel
-   devtunnel user login
-   devtunnel create --allow-anonymous
-   devtunnel port create -p 3978
-   devtunnel host
+   npm run dev
    ```
 
-3. Register the app.
+2. Expose port `3978` with Dev Tunnels:
+
+   ```powershell
+   .\.tools\devtunnel.exe user login
+   .\.tools\devtunnel.exe create --allow-anonymous
+   .\.tools\devtunnel.exe port create -p 3978
+   .\.tools\devtunnel.exe host
+   ```
+
+3. Log in to Teams CLI:
+
+   ```powershell
+   teams login --device-code
+   teams status
+   ```
+
+4. Register the app:
 
    ```powershell
    teams app create --endpoint <tunnel-url>/api/messages --name mat-agent --env .env
    ```
 
-4. Install it in Teams, then add it to the target group chat with **Add people, agents and bots**.
+5. Install it in Teams, then add it to a chat:
 
-This repo now hosts the Teams endpoint at `/api/messages` from `src/server.ts` via `@microsoft/teams.apps`.
+   ```text
+   Add people, agents and bots -> Add agents and bots -> MAT Agent
+   ```
 
-## Implementation Notes
+## Sideloading Blocker
 
-The existing `src/runtime/copilotProvider.ts` should stay behind the Teams endpoint. The Teams handler should:
+If Teams CLI reports that sideloading is blocked for your user, ask IT to enable
+custom app upload for your account:
 
-1. Remove the agent mention from the incoming message text.
-2. Resolve the Teams conversation ID.
-3. Resume or create the matching Copilot session.
-4. Stream or collect the Copilot answer.
-5. Send the result back to Teams.
+```text
+Teams Admin Center:
+Users -> <your user> -> Policies -> App setup policy -> Upload custom apps = On
+```
+
+## Current Implementation Files
+
+```text
+src/server.ts
+  Registers /api/messages through @microsoft/teams.apps.
+
+src/teams/teamsAgent.ts
+  Handles Teams messages and sends replies.
+
+src/teams/mention.ts
+  Removes the @MAT Agent mention from incoming text.
+```
+
