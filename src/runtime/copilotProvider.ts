@@ -87,6 +87,7 @@ export class CopilotProvider {
     this.session = await this.client.createSession({
       model: copilotConfig.model,
       workingDirectory: copilotConfig.workingDirectory,
+      enableConfigDiscovery: copilotConfig.enableConfigDiscovery,
       systemMessage: {
         mode: "append",
         content: copilotConfig.instructions

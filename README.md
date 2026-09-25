@@ -185,13 +185,15 @@ Add people, agents and bots -> Add agents and bots -> MAT Agent
 
 The RAD toolkit MCP service is configured in `src/config/copilot.ts`.
 
-Default local HTTP endpoint:
+For local debug with Copilot CLI already installed and the RAD plugin already
+configured, leave `RAD_MCP_URL` empty and enable Copilot config discovery:
 
-```text
-http://localhost:8765/mcp
+```env
+COPILOT_CONFIG_DISCOVERY=true
+# RAD_MCP_URL=
 ```
 
-You can override it in `.env`:
+For a shared HTTP RAD MCP service, set:
 
 ```env
 RAD_MCP_URL=https://rad-mcp.example.com/mcp
@@ -202,6 +204,9 @@ The RAD MCP service is intentionally HTTP-based so it can be shared by this
 Microsoft Agent Toolkit (MAT) app, GitHub Copilot clients, Claude MCP clients,
 and future internal AI clients. If a client only supports local stdio MCP, use a
 stdio-to-HTTP adapter as a compatibility shim.
+
+During local development, Copilot config discovery can reuse MCP/plugin
+configuration already installed for Copilot CLI.
 
 The configured MCP server key is:
 

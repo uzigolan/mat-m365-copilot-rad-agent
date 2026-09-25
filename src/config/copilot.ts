@@ -12,7 +12,10 @@ export type AppCopilotConfig = {
   workingDirectory: string;
   instructions: string;
   mcpServers: Record<string, McpServerConfig>;
+  enableConfigDiscovery: boolean;
 };
+
+const radMcpUrl = process.env.RAD_MCP_URL?.trim();
 
 export const copilotConfig: AppCopilotConfig = {
   model: process.env.COPILOT_MODEL ?? "gpt-5",
@@ -22,13 +25,16 @@ export const copilotConfig: AppCopilotConfig = {
   instructions:
     process.env.COPILOT_INSTRUCTIONS ??
     "You are the Microsoft Agent Toolkit (MAT) app's coding agent. Use connected MCP servers and skills when relevant, ask for approval before risky actions, and explain tool use clearly.",
-  mcpServers: {
-    radNetworkToolkit: {
-      type: "http",
-      url: process.env.RAD_MCP_URL ?? "http://localhost:8765/mcp",
-      ...(process.env.RAD_MCP_TOKEN
-        ? { headers: { Authorization: `Bearer ${process.env.RAD_MCP_TOKEN}` } }
-        : {})
-    }
-  }
+  enableConfigDiscovery: process.env.COPILOT_CONFIG_DISCOVERY !== "false",
+  mcpServers: radMcpUrl
+    ? {
+        radNetworkToolkit: {
+          type: "http",
+          url: radMcpUrl,
+          ...(process.env.RAD_MCP_TOKEN
+            ? { headers: { Authorization: `Bearer ${process.env.RAD_MCP_TOKEN}` } }
+            : {})
+        }
+      }
+    : {}
 };

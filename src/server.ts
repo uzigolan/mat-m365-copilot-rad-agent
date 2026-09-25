@@ -21,6 +21,7 @@ app.get("/api/health", (_request, response) => {
   response.json({
     ok: true,
     model: copilotConfig.model,
+    configDiscovery: copilotConfig.enableConfigDiscovery,
     mcpServers: Object.keys(copilotConfig.mcpServers)
   });
 });
