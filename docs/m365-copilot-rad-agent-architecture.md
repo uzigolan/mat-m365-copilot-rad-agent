@@ -77,9 +77,9 @@ src/policies/permissions.ts
 ```mermaid
 flowchart TD
     U[Company Users] -->|mention agent| T[Microsoft Teams Chat / Channel]
-    T -->|Bot Framework activity| TA[Microsoft Agent Toolkit (MAT) Teams App\n/api/messages]
+    T -->|Bot Framework activity| TA["Microsoft Agent Toolkit (MAT) Teams App<br/>/api/messages"]
 
-    TA -->|clean prompt + context| MB[Microsoft Agent Toolkit (MAT) backend]
+    TA -->|clean prompt + context| MB["Microsoft Agent Toolkit (MAT) backend"]
     MB --> SM[Session Mapper\nTeams conversation -> Copilot session]
     MB --> TR[Trace Store\nJSONL now, durable store later]
     MB --> PP[Permission Policy]
@@ -167,7 +167,7 @@ the same runtime.
 sequenceDiagram
     participant User
     participant Teams
-    participant MAT as Microsoft Agent Toolkit (MAT) /api/messages
+    participant MAT as "Microsoft Agent Toolkit (MAT) /api/messages"
     participant Sessions as Session Mapper
     participant Copilot as GitHub Copilot SDK
     participant Runtime as Copilot CLI Runtime
