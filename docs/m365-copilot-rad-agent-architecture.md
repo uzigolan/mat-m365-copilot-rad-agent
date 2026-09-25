@@ -515,10 +515,10 @@ Future target:
 ```mermaid
 sequenceDiagram
     participant Copilot
+    participant Tool as RAD MCP Tool
     participant Policy as Permission Broker
     participant Teams
     participant User
-    participant Tool as RAD MCP Tool
 
     Copilot->>Policy: Permission request for RAD command/tool
     Policy->>Teams: Post approval card/message with exact command
