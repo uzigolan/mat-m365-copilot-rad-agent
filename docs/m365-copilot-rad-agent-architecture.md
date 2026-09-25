@@ -422,7 +422,7 @@ flowchart TD
     RSEL --> COP["GitHub Copilot SDK<br/>Copilot CLI Runtime<br/>local signed-in Copilot user"]
     RSEL --> MAF["Microsoft Agent Framework<br/>provider abstraction<br/>delegated or managed identity"]
     RSEL --> M365["Microsoft 365 Copilot / Agent 365<br/>tenant-governed identity"]
-    RSEL --> BYOK["BYOK provider<br/>customer-managed keys only when required"]
+    RSEL --> BYOK["Bring Your Own Key (BYOK) provider<br/>customer-managed keys only when required"]
 
     COP --> DOM["Shared MCP + Skills Domains"]
     MAF --> DOM
@@ -445,12 +445,16 @@ Runtime options:
 | GitHub Copilot SDK + Copilot CLI runtime | No app-owned model API key; uses signed-in Copilot user or supported Copilot auth mode | Developer and internal engineering agents | Current first implementation path |
 | Microsoft Agent Framework | Can use delegated identity, managed identity, or provider-specific auth | Multi-agent orchestration, approvals, governance, provider replacement | Good abstraction layer when more than one provider/runtime is needed |
 | Microsoft 365 Copilot / Agent 365 | Tenant-governed Microsoft 365 identity | Native enterprise M365 agent experience | Best long-term M365-native path, but requires admin/publishing setup |
-| BYOK model provider | Customer-owned key, not hard-coded in app | Regulated or non-Copilot provider requirements | Use only when tenant policy requires it |
+| Bring Your Own Key (BYOK) model provider | Customer-owned model key, not hard-coded in the app | Regulated or non-Copilot provider requirements | Use only when tenant policy requires it |
 
 The business MCP/skills packages should not depend on a specific model runtime.
 They should expose typed tools and instructions that can be mounted by Copilot,
 Claude, Microsoft Agent Framework, Microsoft 365 Copilot, or another approved
 client.
+
+In this document, **Bring Your Own Key (BYOK)** means the customer or tenant
+owns and manages the model provider key. The application must not embed that key
+in source code or documentation.
 
 ## Knowledge plane vs device plane
 
